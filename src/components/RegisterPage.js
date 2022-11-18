@@ -24,9 +24,7 @@ export default function RegisterPage() {
                 <input required type='password' placeholder="Confirme a senha" onChange={e => setConfirmPassword(e.target.value)}/>
                 
                 <button type="submit">Cadastrar</button>
-            </form>
-
-            
+            </form>            
 
             <Link to={'/'}>
                 <h3>Já tem uma conta? Entre agora!</h3>

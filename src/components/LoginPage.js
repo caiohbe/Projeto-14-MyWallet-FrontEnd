@@ -9,7 +9,7 @@ export default function LoginPage() {
     function login(event) {
         event.preventDefault()
         console.log(email, password)
-    } 
+    }
 
     return (
         <Page>
@@ -21,8 +21,6 @@ export default function LoginPage() {
                 
                 <button type="submit">Entrar</button>
             </form>
-
-            
 
             <Link to={'/register'}>
                 <h3>Primeira vez? Cadastre-se!</h3>
@@ -64,7 +62,7 @@ const Page = styled.div`
     }
 
     button {
-        width: 80%;
+        width: 100%;
         height: 45px;
         background-color: #A328D6;
         border: none;

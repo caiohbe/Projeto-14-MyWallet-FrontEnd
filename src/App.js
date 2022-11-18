@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import LoginPage from "./components/LoginPage"
-import MainPage from "./components/MainPage"
+import HomePage from "./components/HomePage/HomePage"
 import RegisterPage from "./components/RegisterPage"
 import IncomePage from "./components/IncomePage"
 import OutcomePage from "./components/OutcomePage"
@@ -13,7 +13,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
-                <Route path="/main" element={<MainPage />} />
+                <Route path="/home" element={<HomePage />} />
                 <Route path="/income" element={<IncomePage />} />
                 <Route path="/outcome" element={<OutcomePage />} />
             </Routes>
