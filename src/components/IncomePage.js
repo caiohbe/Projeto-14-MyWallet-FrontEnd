@@ -1,12 +1,36 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import styled from "styled-components"
+import AuthContext from "../contexts/AuthContext"
+import { useNavigate } from "react-router-dom"
+import axios from "axios"
 
 export default function IncomePage() {
     const [value, setValue] = useState('')
     const [description, setDescription] = useState('')
+    const token = useContext(AuthContext)
+    const navigate = useNavigate()
 
     function sum(event) {
         event.preventDefault()
+
+        const sumObj = {
+            description,
+            value,
+            type: "income"
+        }
+        
+        axios.post("http://localhost:5000/balances", sumObj,
+        {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        }).then(() => {
+            if (token === "TOKEN") {
+                return
+            }
+            navigate('/home')
+        })
+
         console.log(value, description)
     }
 
@@ -34,7 +58,7 @@ const Page = styled.div`
         color: #FFFFFF;
         font-weight: 700;
         font-size: 25px;
-    }
+        }
 
     form {
         width: 100%;

@@ -26,8 +26,6 @@ export default function LoginPage({setToken, setName}) {
         }).catch((err) => {
             alert(err.response.data)
         })
-
-        console.log(loginObj)
     }
 
     return (

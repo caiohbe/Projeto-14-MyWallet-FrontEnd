@@ -11,28 +11,40 @@ export default function HomePage({name}) {
     const token = useContext(AuthContext)
     const [balances, setBalances] = useState([])
     const [total, setTotal] = useState(0)
-    console.log(token)
 
     useEffect(() => {
+        if (token === "TOKEN") {
+            return
+        }
+
         axios.get("http://localhost:5000/balances", {
             headers: {
                 authorization: `Bearer ${token}`
             }
         })
         .then((res) => {
+            console.log(res.data)
             setBalances(res.data.map((balance) => {
-                balance.type === "income" ? setTotal(total + balance.value) : setTotal(total - balance.value)
-
                 return (
-                    <Item type={balance.type}>
+                    <Item type={balance.type} key={balance._id}>
                         <h1><span>{balance.date}</span> {balance.description}</h1>
-                        <h2>{balance.value}</h2>
+                        <h2>{Number(balance.value).toFixed(2).replace('.', ',')}</h2>
                     </Item>
                 )
             }))
+
+            let sum = 0
+            res.data.forEach((balance) => {
+                if (balance.type === "income") {
+                    sum += Number(balance.value)
+                } else {
+                    sum -= Number(balance.value)
+                }
+            })
+            setTotal(sum.toFixed(2).replace('.', ','))
         })
         .catch(err => console.log(err))
-    }, [])
+    },[])
 
     return (
         <Page>
@@ -42,7 +54,7 @@ export default function HomePage({name}) {
             </Header>
 
             <Summary>
-                <Balance>
+                <Balance total={total}>
                     <h1>SALDO</h1>
                     <h2>{total}</h2>
                 </Balance>
@@ -109,7 +121,7 @@ const Item = styled.div`
     }
 
     h2 {
-        color: #C70000;
+        color: ${props => props.type === "income" ? "#03AC00" : "#C70000"};
     }
 `
 
@@ -125,7 +137,7 @@ const Balance = styled.div`
     }
 
     h2 {
-        color: #03AC00;
+        color: ${props => props.total < 0 ? "#C70000" : "#03AC00"};
     }
 `
 
