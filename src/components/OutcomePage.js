@@ -1,13 +1,35 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import styled from "styled-components"
+import axios from "axios"
+import AuthContext from "../contexts/AuthContext"
+import { useNavigate } from "react-router-dom"
 
 export default function OutcomePage() {
     const [value, setValue] = useState('')
     const [description, setDescription] = useState('')
+    const token = useContext(AuthContext)
+    const navigate = useNavigate()
 
     function sum(event) {
         event.preventDefault()
-        console.log(value, description)
+
+        const sumObj = {
+            description,
+            value,
+            type: "outcome"
+        }
+        
+        axios.post("http://localhost:5000/balances", sumObj,
+        {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        }).then(() => {
+            if (token === "TOKEN") {
+                return
+            }
+            navigate('/home')
+        })
     }
 
     return (

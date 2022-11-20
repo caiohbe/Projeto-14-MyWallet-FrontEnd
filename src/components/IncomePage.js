@@ -30,8 +30,6 @@ export default function IncomePage() {
             }
             navigate('/home')
         })
-
-        console.log(value, description)
     }
 
     return (

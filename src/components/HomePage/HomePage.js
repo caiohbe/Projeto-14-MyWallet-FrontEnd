@@ -23,7 +23,6 @@ export default function HomePage({name}) {
             }
         })
         .then((res) => {
-            console.log(res.data)
             setBalances(res.data.map((balance) => {
                 return (
                     <Item type={balance.type} key={balance._id}>
@@ -41,7 +40,7 @@ export default function HomePage({name}) {
                     sum -= Number(balance.value)
                 }
             })
-            setTotal(sum.toFixed(2).replace('.', ','))
+            setTotal(sum.toFixed(2))
         })
         .catch(err => console.log(err))
     },[])
