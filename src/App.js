@@ -5,19 +5,26 @@ import RegisterPage from "./components/RegisterPage"
 import IncomePage from "./components/IncomePage"
 import OutcomePage from "./components/OutcomePage"
 import GlobalStyle from "./assets/styles/globalStyles"
+import { useState } from "react"
+import AuthContext from "./contexts/AuthContext"
 
 function App() {
+    const [token, setToken] = useState("TOKEN")
+    const [name, setName] = useState("Fulano")
+
     return (
-        <BrowserRouter>
-            <GlobalStyle />
-            <Routes>
-                <Route path="/" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-                <Route path="/home" element={<HomePage />} />
-                <Route path="/income" element={<IncomePage />} />
-                <Route path="/outcome" element={<OutcomePage />} />
-            </Routes>
-        </BrowserRouter>
+        <AuthContext.Provider value={token}>
+            <BrowserRouter>
+                <GlobalStyle />
+                <Routes>
+                    <Route path="/" element={<LoginPage setToken={setToken} setName={setName} />} />
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/home" element={<HomePage name={name}/>} />
+                    <Route path="/income" element={<IncomePage />} />
+                    <Route path="/outcome" element={<OutcomePage />} />
+                </Routes>
+            </BrowserRouter>
+        </AuthContext.Provider>
     )
 }
 

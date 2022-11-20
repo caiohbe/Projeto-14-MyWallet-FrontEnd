@@ -1,14 +1,33 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
-export default function LoginPage() {
+export default function LoginPage({setToken, setName}) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const navigate = useNavigate()
 
     function login(event) {
         event.preventDefault()
-        console.log(email, password)
+
+        const loginObj = {
+            email,
+            password
+        }
+
+        axios.post("http://localhost:5000/sign-in", loginObj)
+        .then((res) => {
+            setToken(res.data.token)
+            setName(res.data.name)
+            navigate('/home')
+
+        }).catch((err) => {
+            alert(err)
+        })
+
+        console.log(loginObj)
     }
 
     return (
@@ -30,7 +49,7 @@ export default function LoginPage() {
 }
 
 const Page = styled.div`
-    margin-top: 200px;
+    margin-top: 140px;
     display: flex;
     flex-direction: column;
     align-items: center;

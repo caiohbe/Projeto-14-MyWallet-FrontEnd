@@ -4,11 +4,11 @@ import logoutIcon from "./logoutIcon.png"
 import plusIcon from "./plusIcon.png"
 import minusIcon from "./minusIcon.png"
 
-export default function HomePage() {
+export default function HomePage({name}) {
     return (
         <Page>
             <Header>
-                <h1>Olá Fulano</h1>
+                <h1>Olá {name}</h1>
                 <Link to={"/"}><img src={logoutIcon} alt='logoutIcon' /></Link>
             </Header>
 
