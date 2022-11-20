@@ -3,8 +3,37 @@ import styled from "styled-components"
 import logoutIcon from "./logoutIcon.png"
 import plusIcon from "./plusIcon.png"
 import minusIcon from "./minusIcon.png"
+import { useContext, useEffect, useState } from "react"
+import AuthContext from "../../contexts/AuthContext"
+import axios from "axios"
 
 export default function HomePage({name}) {
+    const token = useContext(AuthContext)
+    const [balances, setBalances] = useState([])
+    const [total, setTotal] = useState(0)
+    console.log(token)
+
+    useEffect(() => {
+        axios.get("http://localhost:5000/balances", {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+        .then((res) => {
+            setBalances(res.data.map((balance) => {
+                balance.type === "income" ? setTotal(total + balance.value) : setTotal(total - balance.value)
+
+                return (
+                    <Item type={balance.type}>
+                        <h1><span>{balance.date}</span> {balance.description}</h1>
+                        <h2>{balance.value}</h2>
+                    </Item>
+                )
+            }))
+        })
+        .catch(err => console.log(err))
+    }, [])
+
     return (
         <Page>
             <Header>
@@ -15,20 +44,9 @@ export default function HomePage({name}) {
             <Summary>
                 <Balance>
                     <h1>SALDO</h1>
-                    <h2>2849.96</h2>
+                    <h2>{total}</h2>
                 </Balance>
-                <Item>
-                    <h1><span>30/11</span> Almoço mãe</h1> 
-                    <h2>39.90</h2>
-                </Item>
-                <Item>
-                    <h1><span>30/11</span> Almoço mãe</h1> 
-                    <h2>39.90</h2>
-                </Item>
-                <Item>
-                    <h1><span>30/11</span> Almoço mãe</h1> 
-                    <h2>39.90</h2>
-                </Item>
+                {balances}
             </Summary>
 
             <Buttons>
