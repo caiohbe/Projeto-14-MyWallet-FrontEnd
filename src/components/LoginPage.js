@@ -24,7 +24,7 @@ export default function LoginPage({setToken, setName}) {
             navigate('/home')
 
         }).catch((err) => {
-            alert(err)
+            alert(err.response.data)
         })
 
         console.log(loginObj)

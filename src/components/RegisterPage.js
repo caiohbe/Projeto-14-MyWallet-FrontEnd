@@ -1,16 +1,29 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 export default function RegisterPage() {
-    const [nome, setName] = useState('')
+    const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
+    const [repeatPassword, setRepeatPassword] = useState('')
+    const navigate = useNavigate()
 
     function register(event) {
         event.preventDefault()
-        console.log(nome,email,password,confirmPassword)
+
+        const registerObj = {
+            name,
+            email,
+            password,
+            repeatPassword
+        }
+
+        axios.post("http://localhost:5000/sign-up", registerObj)
+        .then(() => navigate('/'))
+        .catch(err => console.log(err.response.data))
     }
 
     return (
@@ -21,7 +34,7 @@ export default function RegisterPage() {
                 <input required type='text' placeholder="Nome" onChange={e => setName(e.target.value)}/>
                 <input required type='email' placeholder="E-mail" onChange={e => setEmail(e.target.value)}/>
                 <input required type='password' placeholder="Senha" onChange={e => setPassword(e.target.value)}/>
-                <input required type='password' placeholder="Confirme a senha" onChange={e => setConfirmPassword(e.target.value)}/>
+                <input required type='password' placeholder="Confirme a senha" onChange={e => setRepeatPassword(e.target.value)}/>
                 
                 <button type="submit">Cadastrar</button>
             </form>            
